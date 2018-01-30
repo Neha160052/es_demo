@@ -1,0 +1,53 @@
+buildscript {
+    ext {
+        springBootVersion = '1.4.0.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+//apply from: 'https://web.livfame.com/gitInfo.gradle'
+
+jar {
+    baseName = 'es_demo'
+    version = '0.0.1-SNAPSHOT'
+}
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url 'http://artifactory.videoready.tv/artifactory/libs-release-local' }
+    maven { url 'http://artifactory.videoready.tv/artifactory/libs-snapshot-local' }
+}
+
+ext {
+    springBootVersion = "1.4.0.RELEASE"
+    mysqlConnectorVersion = '5.1.39'
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-jetty:${springBootVersion}")
+
+    compile(group: 'tv.videoready', name: 'module-heartbeat', version: '1.0.0')
+    compile(group: 'tv.videoready', name: 'git-info', version: '1.0.0')
+    compile(group: 'tv.videoready', name: 'module-logger', version: '1.0.0')
+    compile(group: 'tv.videoready', name: 'cors-filter', version: '1.0.0')
+
+    compile('org.springframework.boot:spring-boot-starter-data-elasticsearch')
+}
+
+configurations {
+    compile.exclude module: ("spring-boot-starter-tomcat")
+    compile.exclude module: ("org.springframework.boot:spring-boot-starter-logging")
+}
